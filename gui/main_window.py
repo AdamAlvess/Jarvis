@@ -33,8 +33,14 @@ class MainWindow(ctk.CTk):
         self.logo_label = ctk.CTkLabel(self.sidebar_frame, text="J.A.R.V.I.S.", font=(JARVISTheme.FONT_FAMILY, 22, "bold"), text_color=JARVISTheme.ACCENT_COLOR)
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 30))
         
-        self.new_mode_button = ctk.CTkButton(self.sidebar_frame, text="+ Nouveau Mode", **JARVISTheme.get_button_style(), command=self.open_new_mode_editor)
+        self.new_mode_button = ctk.CTkButton(self.sidebar_frame, text="++ Nouveau Mode", **JARVISTheme.get_button_style(), command=self.open_new_mode_editor)
         self.new_mode_button.grid(row=1, column=0, padx=20, pady=10, sticky="ew")
+
+        self.status_label = ctk.CTkLabel(self.sidebar_frame, text="Raccourcis Actifs", font=(JARVISTheme.FONT_FAMILY, 12), text_color="#aaaaaa")
+        self.status_label.grid(row=2, column=0, padx=20, pady=(20, 5))
+        
+        self.status_icon = ctk.CTkLabel(self.sidebar_frame, text="⬤", font=("Arial", 16), text_color=JARVISTheme.ACCENT_COLOR)
+        self.status_icon.grid(row=2, column=0, padx=(130, 20), pady=(20, 5), sticky="w")
         
         # Zone principale : Liste des Modes (Scrollable)
         self.modes_frame = ctk.CTkScrollableFrame(self, **JARVISTheme.get_frame_style())
@@ -44,7 +50,7 @@ class MainWindow(ctk.CTk):
         self.refresh_modes_list()
         # Planifie la vérification des mises à jour 1 seconde après l'ouverture
         self.after(1000, self.check_startup_updates)
-        
+
     def check_startup_updates(self):
         """Vérifie en tâche de fond si un patch est disponible."""
         new_version = JarvisUpdater.check_for_updates()

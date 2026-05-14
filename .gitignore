@@ -1,0 +1,8 @@
+# On ignore complètement les dossiers générés par PyInstaller
+build/
+dist/
+*.spec
+
+# On ignore les caches Python
+**/__pycache__/
+*.pyc

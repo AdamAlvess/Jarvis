@@ -39,3 +39,34 @@ JARVIS/
 ├── main.py             # Point d'entrée de l'application
 └── requirements.txt    # Dépendances du projet
 ```
+
+## Le flux de travail pour déployer une mise à jour
+
+1. Compiler le code en local
+Dans le terminal, lancer la commande de compilation pour générer l'exécutable tout neuf :
+```text
+python -m PyInstaller --noconsole --onefile --name="JARVIS" --collect-all customtkinter main.py
+```
+Le fichier tout neuf est généré dans le dossier local dist/JARVIS.exe.
+
+2. Pousser le code source mis à jour sur GitHub
+Fais le commit et le push classique pour sauvegarder les fichiers .py sur le dépôt :
+```text
+git add .
+git commit -m "Mise à jour des protocoles JARVIS"
+git push
+```
+3. Publier la Release sur l'interface GitHub (Le point clé)
+Aller sur la page internet du dépôt GitHub AdamAlvess/Jarvis.
+
+Dans la colonne de droite, cliquer sur Create a new release (ou Releases puis Draft a new release).
+
+Dans la case Choose a tag, écrire la nouvelle version, par exemple : 1.0.1 (ou v1.0.1).
+
+Donner un titre à la mise à jour (ex: JARVIS v1.0.1 - Stabilité du système).
+
+En bas de la page, il y a une zone de dépôt de fichier nommée Attach binaries....
+
+Prendre le fichier JARVIS.exe qui est dans le dossier local dist/ sur le PC, et glissez-le dans cette zone.
+
+Cliquez sur le bouton vert Publish release.
