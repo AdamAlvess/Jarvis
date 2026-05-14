@@ -8,7 +8,7 @@ Le système intègre un moteur d'écoute réseau basse couche capable de détect
 ---
 
 ## 🚀 Fonctionnalités
-[1778762712107](image/README/1778762712107.png)
+![Schéma de fonctionnalité](image/README/1778762712107.png)
 - **Interface Graphique Épurée :** Une UI moderne et futuriste au style "Stark Industries", propulsée par `CustomTkinter`.
 - **Raccourcis Clavier Globaux Intelligents :** Capture automatique et détection en arrière-plan de n'importe quelle combinaison de touches (y compris les modificateurs seuls ou touches de fonction `F1-F12`).
 - **Séquenceur d'Actions :** Ajout illimité d'applications locales (`.exe`) et d'URLs web à exécuter dans l'ordre choisi.
