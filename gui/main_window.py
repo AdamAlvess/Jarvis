@@ -4,6 +4,7 @@ import os
 from gui.theme import JARVISTheme
 from gui.config_editor import ConfigEditorWindow
 from core.hotkey_manager import HotkeyManager
+from core.updater import JarvisUpdater
 
 class MainWindow(ctk.CTk):
     def __init__(self):
@@ -35,18 +36,52 @@ class MainWindow(ctk.CTk):
         self.new_mode_button = ctk.CTkButton(self.sidebar_frame, text="+ Nouveau Mode", **JARVISTheme.get_button_style(), command=self.open_new_mode_editor)
         self.new_mode_button.grid(row=1, column=0, padx=20, pady=10, sticky="ew")
         
-        self.status_label = ctk.CTkLabel(self.sidebar_frame, text="Raccourcis Actifs", font=(JARVISTheme.FONT_FAMILY, 12), text_color="#aaaaaa")
-        self.status_label.grid(row=3, column=0, padx=20, pady=(20, 5))
-        
-        self.status_icon = ctk.CTkLabel(self.sidebar_frame, text="⬤", font=("Arial", 16), text_color=JARVISTheme.ACCENT_COLOR)
-        self.status_icon.grid(row=3, column=0, padx=(130, 20), pady=(20, 5), sticky="w")
-        
         # Zone principale : Liste des Modes (Scrollable)
         self.modes_frame = ctk.CTkScrollableFrame(self, **JARVISTheme.get_frame_style())
         self.modes_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
         self.modes_frame.grid_columnconfigure(0, weight=1)
         
         self.refresh_modes_list()
+        # Planifie la vérification des mises à jour 1 seconde après l'ouverture
+        self.after(1000, self.check_startup_updates)
+        
+    def check_startup_updates(self):
+        """Vérifie en tâche de fond si un patch est disponible."""
+        new_version = JarvisUpdater.check_for_updates()
+        if new_version:
+            self.open_update_prompt(new_version)
+
+    def open_update_prompt(self, version):
+        """Ouvre une mini-fenêtre interactive style JARVIS."""
+        popup = ctk.CTkToplevel(self)
+        popup.title("Mise à jour système")
+        popup.geometry("380x180")
+        popup.resizable(False, False)
+        popup.attributes('-topmost', True) # Reste au premier plan
+        
+        # Centrer la popup par rapport à la fenêtre principale
+        popup.grid_columnconfigure((0, 1), weight=1)
+        
+        # Message
+        msg = f"Mise à jour v{version} disponible.\n\nActiver le protocole de mise à jour ?"
+        ctk.CTkLabel(popup, text=msg, font=(JARVISTheme.FONT_FAMILY, 13, "bold"), text_color=JARVISTheme.TEXT_COLOR).grid(row=0, column=0, columnspan=2, padx=20, pady=25)
+        
+        # Fonction d'installation s'il clique sur Oui
+        def install():
+            popup.destroy()
+            # On change le texte du point lumineux pour montrer le chargement
+            self.status_label.configure(text="Mise à jour...")
+            self.status_icon.configure(text_color="#ff9800")
+            self.update()
+            JarvisUpdater.update_software()
+
+        # Bouton OUI
+        yes_btn = ctk.CTkButton(popup, text="Installer", **JARVISTheme.get_button_style(), command=install)
+        yes_btn.grid(row=1, column=0, padx=(20, 10), pady=10, sticky="ew")
+        
+        # Bouton NON
+        no_btn = ctk.CTkButton(popup, text="Plus tard", fg_color="#333333", text_color="white", hover_color="#444444", command=popup.destroy)
+        no_btn.grid(row=1, column=1, padx=(10, 20), pady=10, sticky="ew")
 
     def load_config(self):
         """Charge la configuration depuis le fichier JSON ou crée une config par défaut."""
