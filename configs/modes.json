@@ -1,1 +1,15 @@
-{}
+{
+    "Bureau": {
+        "hotkey": "a+alt+ctrl",
+        "actions": [
+            {
+                "type": "exe",
+                "path": "C:\\Users\\adama\\AppData\\Local\\Programs\\Opera GX\\opera.exe"
+            },
+            {
+                "type": "url",
+                "path": "https://www.google.com"
+            }
+        ]
+    }
+}

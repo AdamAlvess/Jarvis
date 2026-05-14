@@ -4,7 +4,7 @@ import os
 from gui.theme import JARVISTheme
 from gui.config_editor import ConfigEditorWindow
 from core.hotkey_manager import HotkeyManager
-from core.updater import JarvisUpdater
+from core.updater import JarvisUpdater, CURRENT_VERSION
 
 class MainWindow(ctk.CTk):
     def __init__(self):
@@ -30,7 +30,7 @@ class MainWindow(ctk.CTk):
         self.sidebar_frame.grid(row=0, column=0, rowspan=2, sticky="nsew")
         self.sidebar_frame.grid_rowconfigure(4, weight=1)
         
-        self.logo_label = ctk.CTkLabel(self.sidebar_frame, text="J.A.R.V.I.S.", font=(JARVISTheme.FONT_FAMILY, 22, "bold"), text_color=JARVISTheme.ACCENT_COLOR)
+        self.logo_label = ctk.CTkLabel(self.sidebar_frame, text=f"J.A.R.V.I.S. v{CURRENT_VERSION}", font=(JARVISTheme.FONT_FAMILY, 22, "bold"), text_color=JARVISTheme.ACCENT_COLOR)
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 30))
         
         self.new_mode_button = ctk.CTkButton(self.sidebar_frame, text="++ Nouveau Mode", **JARVISTheme.get_button_style(), command=self.open_new_mode_editor)
@@ -106,8 +106,6 @@ class MainWindow(ctk.CTk):
         else:
             with open(self.config_path, "r", encoding="utf-8") as f:
                 self.modes_config = json.load(f)
-
-    # Dans gui/main_window.py
 
     def save_config(self):
         """Sauvegarde la configuration et réactive les raccourcis automatiquement."""

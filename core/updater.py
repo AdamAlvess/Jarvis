@@ -3,7 +3,7 @@ import sys
 import subprocess
 import requests
 
-CURRENT_VERSION = "1.0.0"  # La version de ton EXE local
+CURRENT_VERSION = "1.0.2"  # La version de ton EXE local
 
 # Infos de ton dépôt
 GITHUB_USER = "AdamAlvess"
@@ -73,15 +73,15 @@ class JarvisUpdater:
 
     @staticmethod
     def trigger_upgrade_script():
-        """Crée et lance le script batch de remplacement invisible."""
         current_exe = sys.argv[0]
         if not current_exe.endswith(".exe"):
             print("J.A.R.V.I.S. : Mode Dev détecté. Remplacement de l'EXE annulé.")
             return
 
+        # On passe le timeout à 3 secondes
         bat_content = f"""
         @echo off
-        timeout /t 1 /nobreak > nul
+        timeout /t 3 /nobreak > nul
         del "{current_exe}"
         rename "JARVIS_next.exe" "JARVIS.exe"
         start "" "JARVIS.exe"
