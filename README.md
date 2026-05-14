@@ -19,6 +19,7 @@ Le système intègre un moteur d'écoute réseau basse couche capable de détect
 
 ## 📁 Structure du Projet
 
+```text
 JARVIS/
 │
 ├── configs/            # Stockage des données utilisateur
@@ -37,3 +38,4 @@ JARVIS/
 │
 ├── main.py             # Point d'entrée de l'application
 └── requirements.txt    # Dépendances du projet
+```
